@@ -1,10 +1,11 @@
 pipeline {
-    agent none 
+    agent any 
+    environment {
+        DB_URL = "43.205.210.118"
+    }
+
     stages{
         stage('BUILD') {
-            
-            agent { label 'master' }
-            
             steps{
                  sh '''
                     sleep 5
@@ -14,9 +15,6 @@ pipeline {
         }
 
         stage('TEST') {
-            
-            agent any
-            
             steps {
                 sh '''
                     sleep 6
@@ -26,9 +24,6 @@ pipeline {
         }
 
         stage('DEPLOY') {
-            
-            agent { label 'slave2' }
-
             steps{
                 sh '''
                     sleep 5
