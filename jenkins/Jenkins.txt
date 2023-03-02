@@ -94,3 +94,25 @@ success – if the build ran successfully.
 unstable – build is successful but not healthy. 
 		    E.g. On a particular build run, test cases ran successfully, but test coverage % is less than expected, 
 				 then the build can be marked as unstable		
+
+
+
+
+To backup/restore jenkins_home in github
+
+To restore jenkins_home directory
+
+Join the multi-part of jenkins home archive in to one archive
+
+cat ./jenkins_data.tar.gz.parta* > "jenkins_data.tar.gz"
+Decompress the jenkins home
+
+tar -xzvf jenkins_data.tar.gz
+To backup jenkins_home directory
+
+Compress the jenkins home to tar archive
+
+tar -czvf jenkins_data.tar.gz ./jenkins_data
+Split the tar and push to github
+
+split -b 45M jenkins_data.tar.gz "jenkins_data.tar.gz.part"	
