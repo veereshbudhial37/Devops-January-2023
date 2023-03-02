@@ -11,12 +11,14 @@ pipeline {
 
     stages{
         stage('BUILD') {
-            steps{
-                 sh '''
-                    sleep 5
-                    echo "This is a BUILD stage $BRANCH_NAME"
-                    exit 1
-                '''
+            catchError(message: message, buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                steps{
+                    sh '''
+                        sleep 5
+                        echo "This is a BUILD stage $BRANCH_NAME"
+                        exit 1
+                    '''
+                }
             }
         }
 
