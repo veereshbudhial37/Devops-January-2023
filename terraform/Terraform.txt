@@ -138,7 +138,6 @@ Terraform State
 		Instead of keeping state file in local we can keep to in a remote location 
 		such as s3, etcd, 
 
-
 Practice: 1. Setup Terraform and configure AWS provider.
 		  2. Try to use Visual code studio with proper terraform extensions 
 		  	
@@ -179,7 +178,6 @@ Terraform variable and outputs
 			output "<name>" {
 			     value = aws_instance.instance1.public_ip	 	
 			}
-
 		
 Terraform module 
 	All the terraform scripts in a folder is called a module 
