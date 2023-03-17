@@ -183,13 +183,13 @@ Terraform module
 	All the terraform scripts in a folder is called a module 
 
 	Root module 
-	- The .tf files in the main working directory is root module where we have .terrform folder 	
+	- The .tf files in the main working directory is root module where we have .terraform folder 	
 	  or .tfstate 
 	- Where we run terraform init 
 	- Every terraform script should be in a module.
 
 	Child module 
-	- Terraform scripts defined in a sub-folder inside root module
+	- Terraform scripts defined in a sub-folder inside root module or in a remote place like github, s3 etc..
 	- We can segregate the scripts instead writing every this in same script.
 	- We can reuse the child modules in other projects also.
 	- These are always user defined 			
@@ -202,7 +202,7 @@ terraform.tfvars vs variables.tf
 	To plan/apply with a particular .tfvars file 
 		terraform plan -var-file=terraform.tfvars
 		terraform apply -var-file=terraform.tfvars
-		
+
 To update the module whose source is from github/some remote 
 	terraform get -update
 
