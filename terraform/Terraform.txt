@@ -47,12 +47,12 @@ Terraform Provider
 		}
 		
 		provider "aws" {
-			alias = "region1"
+			alias = "provider1"
 			region = "us-east-1"
 		}
 
 		provider "aws" {
-			alias = "region2"
+			alias = "provider2"
 			region = "us-east-2"
 		}		
 		
@@ -105,20 +105,20 @@ terraform plan
 
 terraform apply 
 	- The terraform apply command is used to apply the planned changes to the actual cloud 
-	  insfrasructure. 
+	  infrastructure. 
 	- This will internally run the plan again then with the user confirmation the predicted 
 	  changes will be applied.
 		
 	To apply changes will out user confirmation 
 		terraform apply --auto-approve
 	
-	To run a perticular terraform script
+	To run a particular terraform script
 		terraform apply <script>.tf <script1>.tf
 		
 	To apply a plan file
 		terraform apply <plan_file>
 			
-tarraform destroy 
+Terraform destroy 
 	- This is used to destroy the resources which are manged by this current terraform 
 	  scripts.
     - Crate a destroy plan
