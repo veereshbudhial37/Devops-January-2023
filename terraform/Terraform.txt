@@ -193,3 +193,17 @@ Terraform module
 	- We can segregate the scripts instead writing every this in same script.
 	- We can reuse the child modules in other projects also.
 	- These are always user defined 			
+
+terraform.tfvars vs variables.tf 
+	- variables.tf we can have variable block which acts as input to our terraform scripts.
+	- tf.vars is a way defining the default value to input variables.
+
+	we use variables.tf to declare input variables and we use tf.vars to assign default value to input variables.
+	To plan/apply with a particular .tfvars file 
+		terraform plan -var-file=terraform.tfvars
+		terraform apply -var-file=terraform.tfvars
+		
+To update the module whose source is from github/some remote 
+	terraform get -update
+
+
