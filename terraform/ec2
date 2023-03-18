@@ -9,3 +9,11 @@ OUTPUT: ec2_pem
 SG
 INPUT: sg_name
 OUTPUT: sg_id
+
+s3
+INPUT: bucket_name, 
+OUTPUT: 
+
+DynamoDB
+INPUT: dynamodb_name, hash_key
+OUTPUT: 
