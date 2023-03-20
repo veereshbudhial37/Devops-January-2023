@@ -220,7 +220,6 @@ Provisioners
 		     host = "<ip>"				
 		}	
 	 
-
 	file 
 	    - The file Provisioner is used to copy file or directories from terraform project to cloud 
 	      compute resource.
@@ -253,6 +252,7 @@ Null resource
 		resoruce "null_resource" "<resource_name>" {
 			
 		}
+
 
 
 
@@ -324,3 +324,32 @@ Terraform loops (count and for_each)
 		value = null_resource.names
 	}
 
+
+Terraform workspace 
+	- workspace are a way of managing different set of statefiles which are independent to 
+	  each other.
+	- Every configuration should be in a workspace.
+	- "default" is the default workspace in terraform 
+	
+	To list workspace
+		terraform workspace list
+	
+	To create workspace 
+		terraform workspace new <workspace_name>
+
+	To switch between workspace
+		terraform workspace select <workspace_name>
+	
+	To delete workspace 
+		terraform workspace delete <workspace_name>
+
+	Usage: 
+	   -  We can deploy different version of terraform scripts with states associated with it.
+	   -  We can maintain different set of infrastructure with same terraform repo with different 
+	      state files.
+	   -  We can deploy based on environment categorisation.
+
+data source / data resource 
+	- A data source is used to get the information dynamically from cloud.
+	- This block is read-only and this will be always executed on every plan and apply.
+	- we can query the required information and filter the field we want.

@@ -1,0 +1,54 @@
+1) Install Docker 
+	docker install ubuntu 
+
+2) Create a Docker hub account 
+	Login to your hub account  in the host machine 
+		docker login 
+
+3) Pull and try a sample image 
+	a. docker pull ubuntu 
+	b. docker pull jenkins/jenkins:lts
+
+4) List the existing local images 
+	docker images 
+
+5) Try to create a container out of pulled image
+	a. docker run -it -d ubuntu /bin/bash 
+	b. create a directory /home/ubuntu/jenkins_home with 777 permission and run below command 
+	c. docker run -it -d --name jenkins -p 8080:8080 -p 50000:50000 -v /home/ubuntu/jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+
+6) List containers 
+	docker ps 
+		(or)
+	docker container ls 
+
+7) To get Jenkins admin password 
+	docker logs <container_id / container_name> 
+	ex: docker logs jenkins 
+
+
+Docker 
+	Docker is one of the tools that used the idea of the isolated resources to 
+	create a container that allows applications to be packaged with all the 
+	dependencies installed and ran wherever we wanted.
+	
+	Docker can only run on Linux machines this means I cant install Docker directly on Windows or any other OS.
+	If I want install Docker on windows then I need to run a Linux VM in windows on top that I need to run Docker.
+
+Virtualization (VM)
+	- VM is way of running virtual OS on top a host OS using a special software called Hypervisor.
+	- VM directly shares the hardware of the host OS. 
+
+					VM 					vs 			Containerisation 
+	1. Virtualization at hardware level  		1. Virtualization at OS level 
+	2. Heavyweight - consume more host 		2. Lightweight
+	   resources 	
+	3. VM uses hypervisor 				3. containerisation tool is used 
+	4. limited performance - Boot up time           4. Native performance - usually boot 
+		is more which is in minutes 	           fast in seconds.
+	5. Consumes more storage 		        5. Shares OS storage means only uses 
+							   required storage.
+	6. Supports all OS 				6. Supports on Linux
+
+host machine 
+	This is the machine in which docker is running 

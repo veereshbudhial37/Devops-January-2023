@@ -1,7 +1,3 @@
-variable "root_ec2_ami" {
-    type = string 
-}
-
 variable "root_ec2_type" {
     type = string 
 }
