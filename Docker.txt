@@ -86,7 +86,10 @@ Docker images
 
 	To force delete images 
 		docker rmi -f <image_id>	
-		docker rmi --force <image_id>	
+		docker rmi --force <image_id>
+
+	To delete all dangling images 
+		docker image prune		
 
 
 Docker container 
@@ -123,6 +126,7 @@ Docker container
 
 	Delete all stopped container 
 		docker rm $(docker ps --filter "status=exited" -q)
+		docker container prune
 
 	Delete a running container 
 		1. Stop the container first 
@@ -167,6 +171,29 @@ Assignment: Today's demo
 			How to copy files / directories from 
 				1. host machine to container 
 				2. container to host machine 
+
+Dangling Images 
+	Dangling images are created while executing layers in image build process that have no relationship 
+	to any tagged images. They no longer serve a purpose and it consume disk space.
+	
+	To list dangling images 
+	    docker images -f dangling=true
+	
+	To remove only dangling images 
+	    docker rmi $(docker images -f dangling=true -q)
+
+   	To delete all unused images including dangling image
+	    docker image prune
+
+	docker system prune 
+		Remove all unused containers, networks, images (both dangling and unreferenced),
+		and optionally, volumes. 
+		This will remove:
+  		  - all stopped containers
+  		  - all networks not used by at least one container
+  		  - all dangling images
+  		  - all dangling build cache
+
 
 Docker custom image / Dockerfile / Docker instructions 
 	
@@ -297,7 +324,41 @@ IQ: What is the difference b/w CMD and ENTRYPOINT ?
     What is the difference b/w Expose and Publish ?
 
 
+docker inspect <object_id>
+	- To check the complete details of any object in the docker system 
 
 
+Docker volume 
+	Bind mount 
+		- we mount a host location (file/directory) inside a container location 	
+			docker -v <host_path>:<container_path>
+		- The changes made in host will retain in container and also changes made inside container in this 
+		  location will retain in host 
+		- If container is deleted host directory will not be deleted (data persistence).
+		- It is not preferable to mount a single directory to multiple container. (multiple containers processes 
+		  may try write the data to same file which is not possible)
 
+	Volumes 
+		- The are docker managed filesystem and we use docker commands to manage these volumes.
+		- Volumes are easier to manage, backup and migrate than bind mounts.
+		- We can use different source filesystem called storage drivers (EBS, EFS, s3) 
+		- Default location of docker volume is /var/lib/docker/volumes/<volume_name>
+		To create a docker volume 
+			docker 	volume create <volume_name>	
+
+		To delete volume 
+			docker volume rm <volume_name>
+
+		To mount a volume 
+			docker -v <volume_name>:<container_path>
+
+Assignment: Mount AWS EFS docker volume to a container.
+			docker volume create \
+		    --driver local \
+		    --opt type=nfs \
+		    --opt o=addr=fs-0b0e3aa3ba59955ac.efs.ap-south-1.amazonaws.com,rw,nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 \
+		    --opt device=:/ efs 
+
+		    To test create a file in the cotnainer 
+		    	while true; do echo "Dummy data" >> test.txt; done
 
