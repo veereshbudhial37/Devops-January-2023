@@ -1,0 +1,6 @@
+Kubernetes  
+	kubeadm
+	kops 
+
+self managed cluster 
+clud managed cluster 
