@@ -62,3 +62,48 @@ Worker node components
 Assignment: What happens when a new pod request comes to control plane / Master node ? 
 			https://medium.com/jorgeacetozi/kubernetes-master-components-etcd-api-server-controller-manager-and-scheduler-3a0179fc8186
 
+Linux namespaces and cgroups 
+	namespaces 
+
+
+YAML syntax 
+ - filetype .yaml or .yml
+ - YAML consists of key - value pairs 
+ - Key is always defined by the tool - k8s 
+ - Values will be defined by user.
+ 		Types of values we can provide 
+ 			- Integer (Numeric)
+ 			- Sting (Alphanumeric)
+ 			- Array 
+ 			- List 
+ 			- Boolean 
+
+ 			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
