@@ -78,11 +78,31 @@ YAML syntax
  			- List 
  			- Boolean 
 
- 			
+ 	List 
+ 		name: Harsha
+ 		hobbies: ["Reaading", "Coding", "Driving"]
+
+ 		 			(OR)
+
+ 		name: Harsha
+ 		hobbies: 
+ 			- Driving 
+ 			- Reading 
+ 			- Coding  					
 
 
-
-
+apiVersion: v1
+kind: Pod
+metadata:
+    name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+         - containerPort: 8080
+       - containerPort: 50000
+   
 
 
 
