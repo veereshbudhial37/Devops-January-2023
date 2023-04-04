@@ -168,32 +168,80 @@ Deployment controller / Deployment / Deployment k8s
 
 	deployment = pod + ReplicaSet + autoscalling + RollingUpdate + scale 
 
-Labels, annotations and selectors 
-	
-Selectors 
-	EQAULITY-BASED 
-		-  (=, ==) eqaulto or != notequalto
-			app=my-nginx or app==my-nginx or app: my-nginx
+Labels, selector and annotations
+	Labels:
+		- K8S labels are provided as metadata key value to identify the object.
+		- We can provide labels to any object in K8S
+		- Labels are used to identify by selectors
+		- We can have same label on multiple objects and 	
 
-	SET-BASED 	
-		app in (nginx, my-nginx)
-		app exists (nginx, my-nginx)
-		app notin (nginx, my-nginx)
+		To list labels of any object 
+			kubectl get <object_type> <object_name> --show-labels	
 
+	Selectors:
+		- Selectors are used to select, filter and identify the labeled objects.
 
+		Types of selectors 
+			equality-based 
+				- In this selector we can use only one operator which is equal_to (=, ==) or (!=) not_equal
+				- It looks for exact match for the label  
+
+				app = nginx  or app: nginx
+				app != nginx
+
+			set-based 
+				- This type of selector allows to filter objects based on multiple set of values to a key.
+				- operators that are supported are in , notin and exists
+
+				app in (nginx, nginx1)
+				app exists (nginx, nginx1)
+				app notin (nginx, nginx1)
 
 ReplicaSet vs Replication controller
-
+	- Both ensures that at a given point of time the specified number of replicas are always running.
+	- Replication controller is very old controller now it is replaced by ReplicaSet.
+	- The only difference between them is Replication controller supports only equality-based selector but 
+	  ReplicaSet support both set-based and equality based selector.
 
 DaemonSet 
+	- DaemonSet creates exactly one pod on each and every worker node in the cluster and ensures that all that are 
+	  always running.
+    - If a new worker node is added or deleted, DaemonSet will also add or delete the pod from the 
+	  respective worker node.
 
-Services 
+Service (svc) (Basic network configurations in k8s)
+	- Service is an REST api objects with which we can define policies to access set of pods.
+	- Service are cluster level object.
+	- By default, services are loadbalancers.
+	- K8S Preffered port range for services is between 30000 - 50000.  
+	
 	ClusterIP
-		- port range 30000 - 32767
+		- This is the default type of service in k8S.
+		- using ClusterIP we can expose the IPs of pods to another set of pods with in the cluster.
+
+		To check 
+			1. Create a custom images and push to your Docker registry
+				docker build -t <username>/<repo_name>:<tag> .
+				docker login
+				docker push 
+			2. kubectl apply -f clusterIP.yml
+
+			3. Login to any one pod
+					kubectl exec -it <pod_name> /bin/bash
+
+			4. Try to access the service - ClusterIP using <ClusterIP_ip_address>:<service_port>		 	
+				curl </ClusterIP_ip_address>:<service_port>
+				ex: (for i in {1..20}; do curl 10.101.209.36:30002; echo; done)
 
 	NodePort
-		NodePort = clusterIP + port mapping to all the nodes 
+		- This service is most primitive way to get the external traffic directed to our applications 
+		  running inside the cluster in pods.
+		- Automatically a ClusterIP will also be created internally.
 
+		NodePort = ClusterIP + a port mapping to the all the nodes ips. 		
+
+		- If we wont specify any port while creating nodeport, k8s will Automatically asigns a random port 
+		  between 30000 - 32767
 
 
 
