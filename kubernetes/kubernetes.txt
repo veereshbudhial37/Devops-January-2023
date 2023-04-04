@@ -188,8 +188,11 @@ ReplicaSet vs Replication controller
 DaemonSet 
 
 Services 
-	
+	ClusterIP
+		- port range 30000 - 32767
 
+	NodePort
+		NodePort = clusterIP + port mapping to all the nodes 
 
 
 
