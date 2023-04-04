@@ -25,7 +25,6 @@ kind: Service
 metadata:
     name: ip-app-cluster-ip
 spec: 
-    type: ClusterIP
     selector:
         app: ip-app
     ports:
