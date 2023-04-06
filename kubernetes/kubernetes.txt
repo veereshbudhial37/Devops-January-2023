@@ -243,9 +243,91 @@ Service (svc) (Basic network configurations in k8s)
 		- If we wont specify any port while creating nodeport, k8s will Automatically asigns a random port 
 		  between 30000 - 32767
 
+namespaces (ns)
+	- k8s namespaces is a way of applying abstraction / isolation to support multiple 
+	  virtual clusters of k8s objects with in the same physical cluster.
+	- Each and every object in k8s must be in a namespace.
+	- If we wont specify namespace, objects will be created in default namespace of k8s.
+    - namespaces are cluster level.
+	- Namespace are only hidden from each other but not fully isolated because one 
+	  service in a namespace can talk to another service in another namespace using 
+	  fullname (service/<service_name>) followed by namespace name
+	
+	usage: we can apply environment based logical separation on cluster. 
+		
+	Type of deafault NS
+	1. default
+	   - This NS is used for all the objects which are not belongs to any other namespace.
+	   - If we wont specify any namespace while creating an object in k8s then 
+         that object will be created in deafult namespace.
+			
+	2. kube-system 
+	   - This namespace is always used for objects created by the k8s system.
+	   
+	3. kube-public 
+	   - The objects in this namespace are available or accessable to all.
+       - All the objects in this namespace are made public.
 
+	4. kube-node-lease 
+	   - This namespace holds lease objects assosiated with each node.
+	   - Node lease allows the kubelet to send heartbeats so that the control palne can 
+		 detect node failure.
 
+	To list namespaces 
+		kubectl get namespaces 
+		kubectl get ns	
 
+	To list object in a namespace 
+		kubectl get -n <namespace_name> <object_type>
+	
+	To list objects in all namespaces
+		kubectl get --all-namespaces <object_type>
+		kubectl get -A <object_type>
+
+	To create a namespace 
+		kubectl create ns <namespace_name>
+		
+	To create a object in a namespace 
+		1. In metadata:
+			namespace: <namespace_name>
+
+		2. While apply 	
+			kubectl apply -f <spec_file>.yml -n <namespace_name> 
+
+		Note: If we provide namespace in both spec file and while apply, 
+		      apply command check and compares the namespace in spec file if they are not same k8s won't 
+		      allow us to create the object.	
+
+Statefull Applications 
+	- User session data is saved at the server side.
+	- if server goes down, it is difficult to transfer the session data to other server. 
+	- This type of application will not work, if we want to implement autoscaling.
+	
+Stateless Applications
+	- user session-data is never saved at the server side.
+	- using a common authentication gateway / client token method to validate the users 
+	  once for multiple microservices.	
+		
+Monolothic and Microservice architecture 
+
+	Monolothic architecture
+		- A monolothic application has a single code base with multiple modules in it.
+		- It is a single build for entire application.
+		- To make minor changes to application, we need to re-build and re-deploy the 
+		  complete application.
+		- scaling is very challenging.
+			
+	Microservice architecture 
+		- A microservice application is composed of small (micro) services. 
+		- Each service will have a different code base.
+		- Application are divided into as small as possible sub applications called services
+		  which are independent to each other which are called loosely coupled.	
+		- Each service can be managed separately and it is deployable separately.
+		- Services need not to share same technology stack or frameworks.	
+
+https://medium.com/@maneesa/what-happens-when-you-type-an-url-in-the-browser-and-press-enter-bb0aa2449c1a
+
+https://medium.com/tech-tajawal/microservice-authentication-and-authorization-solutions-e0e5e74b248a
 
 
 
