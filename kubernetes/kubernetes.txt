@@ -331,7 +331,29 @@ https://medium.com/tech-tajawal/microservice-authentication-and-authorization-so
 
 StatefullSet 
 	StatefullSet = Deployment + sticky identity for each and every pod 
+
+DNS syntax 
+	Local 
+		<object_name>.<namespace_name>.<object_type>.cluster.local
 	
+	From outside 
+		<object_name>.<namespace_name>.<object_type>.<cluster_url>
+
+Headless service 
+	- If we don't need the default loadbalancing capability of services nor the single IP to service we use StatefullSet 
+	- using Headless service we can get all the target pod ips, if we do nslookup.
+	- It is created by sepcifying 'none' for ClusterIP
+	- Headless service is usually used with StatefullSet controller.  
+
+
+	- Headless service returns all the ips of the pods it is selecting.
+	- headless service is created by specifying none for clusterIP 
+	- headless service is usually used with statefulsets.
+	
+	Demo: 1. Create a headless service with statefulsets
+	      2. Login to any one of pod - kubectl exec -it <pod_name> <command>
+	      3. apt update && apt install dnsutils 
+	      4. nslookup <service_name>
 
 
 
