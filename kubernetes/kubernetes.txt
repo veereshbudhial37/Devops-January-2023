@@ -329,7 +329,9 @@ https://medium.com/@maneesa/what-happens-when-you-type-an-url-in-the-browser-and
 
 https://medium.com/tech-tajawal/microservice-authentication-and-authorization-solutions-e0e5e74b248a
 
-
+StatefullSet 
+	StatefullSet = Deployment + sticky identity for each and every pod 
+	
 
 
 
