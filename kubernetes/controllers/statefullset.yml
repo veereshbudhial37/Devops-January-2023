@@ -27,7 +27,7 @@ metadata:
 spec: 
     clusterIP: None
     selector:
-        app: ip-app
+        app: ip-app-sfs
     ports:
        - name: http
          port: 30002     
