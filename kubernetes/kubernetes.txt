@@ -355,6 +355,15 @@ Headless service
 	      3. apt update && apt install dnsutils 
 	      4. nslookup <service_name>
 
+Service Discovery (microservices access with each other)
+1. Services 
+2. DNS 
+3. K8S ENV
+
+Configmap and secrets 
+	
+
+
 
 
 
