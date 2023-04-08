@@ -361,8 +361,11 @@ Service Discovery (microservices access with each other)
 3. K8S ENV
 
 Configmap and secrets 
-	
 
+K8s volumes 
+pv 
+pvc 
+dynamic volumes 
 
 
 
