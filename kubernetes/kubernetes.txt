@@ -355,17 +355,162 @@ Headless service
 	      3. apt update && apt install dnsutils 
 	      4. nslookup <service_name>
 
-Service Discovery (microservices access with each other)
-1. Services 
-2. DNS 
-3. K8S ENV
+Pod lifecycle 
+	1. pending 
+		- This is the state of pod when pod will be waiting for k8s cluster to accept it.
+		- pod will be downloading the image form registry.
+		- pod will be in pending state if scheduler still trying to assign to a node.
 
-Configmap and secrets 
+	2. Running 
+		- The pod got a node assigned and all the containers inside the pod is running.
+		- At least one container is running and other in starting state (no container should be in exited)
+		
+	3. Failed 
+		- All the container in pod should not be running and at least one container should be in terminated state 
+		  in failure.
+	
+	4. Succeeded 
+		- All the containers in pod have been terminated successfully / gracefully 
+	
+	5. Unknown 
+		- For some other reason the API server can not get the pod state the it will put pod in Unknown state 
+		- When k8s can't communicate with the worker node the it will put all the pods of that worker node to unknown.
 
-K8s volumes 
-pv 
-pvc 
-dynamic volumes 
+	6. Terminating
+		- when pod is being deleted 
+	
+	Container status 
+		Running 
+			- When container is running the process without error 
+		
+		Terminated 
+			- Process inside the container has completed the execution successfully or it may be failed 
+			  due to error.
+		
+		Waiting
+			- If a container is not running or neither in terminated state.
+
+Service Discovery (microservice access)
+	Questions 
+		- How a microservice will communicate with other microservice
+		- pod to pod communicate 
+
+	kubectl cluster-info
+		to get ip address of our k8s cluster and also CoreDNS address 
+
+	1. Services 
+		- we can use the fullname of service to Discovery a microservice (pod)		
+			fullname - (service/<service_name>)
+
+	2. DNS 
+		- DNS server is added to the cluster by k8s in order to map the service request.
+		- When ever we create a service k8s will Automatically create a DNS record for it.
+					A - (target always ip address )  CNAME (another DNS) 	
+		- Record type A is used in k8s service Discovery and this is created on objects with IP 
+			(pods, services) 			
+
+		syntax: 
+				mail.google.com 
+					.com (top level domain type)
+					google (name of the main domain)
+					mail (name of the subdomain)	
+
+				K8S DNS 
+					<object_name>.<namespace_name>.<object_type>.cluster.local
+
+					ex: my-clusterip-ip-app.default.svc.cluster.local	
+
+	3. K8S ENV 	
+		- These are environment variables which k8s auto creates in each and every pod 
+		  which is connected to a service 
+		- KUBERNETES_SERVICE_PORT_HTTPS=443
+		- KUBERNETES_SERVICE_PORT=443
+		- KUBERNETES_PORT_443_TCP=tcp://10.96.0.1:443
+		- KUBERNETES_PORT_443_TCP_PROTO=tcp
+		- KUBERNETES_PORT_443_TCP_ADDR=10.96.0.1
+		- KUBERNETES_SERVICE_HOST=10.96.0.1
+		- KUBERNETES_PORT=tcp://10.96.0.1:443
+		- KUBERNETES_PORT_443_TCP_PORT=443  
+
+ConfigMaps and Secrets 
+	- Cofigmaps are k8s objects that allows us to separate and attach configuration data from the image content of the pod.
+	- We attach environment variables to the pod. 
+	- The data is not encrypted by default in configmaps so better to use non-confidential data in configmaps.
+	
+	Create a configmap
+		1. Create a file by name "app.properties"
+			environment=test
+			database_url="192.168.1.1"
+			database_password="adjhfgjladhgalhg"
+			
+		2. Load the single config file 
+			kubectl create configmap <configmap_name> --from-file configs/app.properties
+
+		   Load the multiple config files 	
+			kubectl create configmap <configmap_name> --from-file configs/
+	
+	Create a secret 
+		- Data by default encrypted by base64 format and we use it for confidential data 
+
+		1. Get values in base64 format 
+			echo -n '<value>' | base64 
+
+		2. Copy the base64 value got from above command and use it in secrets 
+
+			apiVersion: v1
+			kind: Secret
+			metadata: 
+    			    name: my-secret
+			type: Opaque    
+			data:
+   				db_url: cG9zdGdyYXNlLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWw=
+   				db_username: dGVzdF91c2Vy
+   				db_password: cGFzc3dvcmQ= 
+		
+		3. Types of secrets 
+			Opaque					arbitrary user-defined data
+			kubernetes.io/service-account-token	ServiceAccount token
+			kubernetes.io/dockercfg			serialized ~/.dockercfg file
+			kubernetes.io/dockerconfigjson		serialized ~/.docker/config.json file
+			kubernetes.io/basic-auth			credentials for basic authentication
+			kubernetes.io/ssh-auth			credentials for SSH authentication
+			kubernetes.io/tls			data for a TLS client or server
+		
+		4. Using secrets in pod spec
+
+			env: 
+       			   - name: DB_URL
+         		     valueFrom: 
+            		        secretKeyRef: 
+               				name: my-secret
+               				key: db_url
+
+Persistent Volume (pv)
+	- It is a storage space which we reserve as persistent volume.
+	- This storage space can be claimed to any pod in the cluster. 
+	- These are cluster level object and not bounded to namespace.
+	
+	we can control the access  (accessModes)
+	 - ROX (ReadOnlyMany) 
+		Volume can be claimed from multiple worker nodes in read-only mode 
+	 - RWX (ReadWriteMany)
+		Volume can be claimed from multiple worker nodes in read-write mode 
+	 - RWO (ReadWriteOnce)
+		- Volume can be claimed from only one worker node in read-write mode. 
+		- k8s allow multiple pods to access the volume when the pods are running on the same node.
+         - RWOP (ReadWriteOncePod)
+                - The volume can be mounted as read-write by only a single Pod. 
+		- Use ReadWriteOncePod access mode if you want to ensure that only one pod across whole cluster 
+		  can read-write that PVC.
+
+Persistent Volume Claim (pvc)
+	- This is the amount of memory needed to claim in any pod based on the access modes.
+	- After we create pic, k8s looks for a Persistent Volume which matches the claim same configuration.
+	- If Persistent Volume is found with same configuration, it binds the claim to the pod as volume. 
+
+Assignment: 
+	- Dynamic volume provisioning 
+	- Storage class 	
 
 
 
