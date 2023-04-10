@@ -512,7 +512,9 @@ Assignment:
 	- Dynamic volume provisioning 
 	- Storage class 	
 
-
+K8s container type (container patterns)
+	init container 
+		
 
 
 
