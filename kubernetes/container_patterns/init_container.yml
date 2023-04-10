@@ -9,7 +9,7 @@ spec:
     command: ["/bin/sh"]
     args: ["-c", "echo '<html><h1>Init conatiner</h1></html>' >> /shareDir/index.html"]
     volumeMounts:
-    - name: shareDirectory
+    - name: sharedirectory
       mountPath: "/shareDir"
 
   containers:
